@@ -10,8 +10,7 @@ export type Materia = {
     link: string;
 };
 
-
-export const materie:Materia[] = [
+const materie: Materia[] = [
     {
         id: 1,
         titolo: "Matematica",
