@@ -17,13 +17,13 @@ export default function Profilo() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
         <div className="max-w-4xl mx-auto">
           <Link
-              href="/"
+              href="/materie"
               className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-medium mb-6 transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
-            Torna alle materie
+            Vai alle materie
           </Link>
 
           <div className="bg-white rounded-lg shadow-xl overflow-hidden">
@@ -148,7 +148,7 @@ export default function Profilo() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <Link
-                      href="/"
+                      href="/materie"
                       className="bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg p-4 flex items-center gap-3 transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
