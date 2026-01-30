@@ -1,77 +1,45 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
-import Image from "next/image";
-import "./globals.css";
+// src/app/layout.tsx
+import './globals.css';
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-    title: "Dashboard Studente",
-    description: "Dashboard personale per la gestione delle materie",
+export const metadata = {
+    title: 'Dashboard Studente',
+    description: 'Dashboard materie',
 };
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="it">
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-        <nav className="bg-indigo-600 shadow-lg sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center gap-8">
-                        <Link href="/public" className="flex items-center gap-2">
-                            <Image
-                                src="/window.svg"
-                                alt="Logo"
-                                width={32}
-                                height={32}
-                                className="invert"
-                            />
-                            <span className="text-white font-bold text-xl">
-                    My Dashboard
-                  </span>
-                        </Link>
-
-                        <div className="hidden md:flex items-center gap-4">
-                            <Link
-                                href="/public"
-                                className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                            >
-                                Home
-                            </Link>
-                            <Link
-                                href="/materie/nuova"
-                                className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                            >
-                                Nuova Materia
-                            </Link>
-                            <Link
-                                href="/profilo"
-                                className="text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                            >
-                                Profilo
-                            </Link>
-                        </div>
-                    </div>
+        <body className="min-h-screen bg-gray-50 text-gray-900">
+        <header className="bg-white shadow-sm">
+            <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Image src="/logo.png" alt="Logo" width={48} height={48} />
+                    <h1 className="text-xl font-semibold">Dashboard Studente</h1>
                 </div>
+                <nav>
+                    <ul className="flex gap-4 text-sm">
+                        <li>
+                            <Link href="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link href="/materia/nuova">Nuova Materia</Link>
+                        </li>
+                        <li>
+                            <Link href="/profilo">Profilo</Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </nav>
+        </header>
 
-        {children}
+        <main className="max-w-5xl mx-auto px-4 py-8">{children}</main>
+
+        <footer className="text-center text-xs text-gray-500 py-6">
+            © {new Date().getFullYear()} Dashboard Studente
+        </footer>
         </body>
         </html>
     );
