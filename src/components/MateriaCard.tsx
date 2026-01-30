@@ -13,9 +13,10 @@ export default function MateriaCard({ m }: { m: Materia }) {
                 <p className="text-sm text-gray-600">Ore: {m.ore}</p>
             </div>
             <div className="flex gap-2 items-center">
-                <Link href={`/materia/${m.id}`} className="text-sm px-3 py-1 border rounded hover:bg-gray-50">
+                <Link href={`/materie/${m.id}`} className="text-sm px-3 py-1 border rounded hover:bg-gray-50">
                     Dettaglio
                 </Link>
+
             </div>
         </div>
     );

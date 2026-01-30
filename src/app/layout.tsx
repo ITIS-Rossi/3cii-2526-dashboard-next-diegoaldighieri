@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             <Link href="/">Home</Link>
                         </li>
                         <li>
-                            <Link href="/materia/nuova">Nuova Materia</Link>
+                            <Link href="/materie/nuova">Nuova Materia</Link>
                         </li>
                         <li>
                             <Link href="/profilo">Profilo</Link>

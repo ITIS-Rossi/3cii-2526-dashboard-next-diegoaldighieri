@@ -21,7 +21,10 @@ export default function HomePage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Materie</h2>
-          <Link href="/materia/nuova" className="text-sm px-3 py-1 border rounded">Aggiungi nuova materia</Link>
+            <Link href="/materie/nuova" className="text-sm px-3 py-1 border rounded">
+                Aggiungi nuova materia
+            </Link>
+
         </div>
 
         <div className="grid gap-4">
