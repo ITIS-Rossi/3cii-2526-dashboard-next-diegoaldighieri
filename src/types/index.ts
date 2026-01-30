@@ -1,10 +1,10 @@
 // src/types/index.ts
 export type Materia = {
-    id: string;
+    id: number;
     titolo: string;
     ore: number;
-    insegnante: string;
+    prof: string;
     argomenti: string[]; // elenco argomenti
-    libro?: string;
-    links?: string[];
+    libro: string;
+    link: string[];
 };
