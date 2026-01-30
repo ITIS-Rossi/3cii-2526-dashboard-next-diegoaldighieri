@@ -2,7 +2,6 @@
 import './globals.css';
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export const metadata = {
     title: 'Dashboard Studente',
@@ -16,19 +15,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="bg-white shadow-sm">
             <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Image src="/logo.png" alt="Logo" width={48} height={48} />
+                    <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <span className="text-white font-bold text-xl">DS</span>
+                    </div>
                     <h1 className="text-xl font-semibold">Dashboard Studente</h1>
                 </div>
                 <nav>
                     <ul className="flex gap-4 text-sm">
                         <li>
-                            <Link href="/">Home</Link>
+                            <Link href="/" className="hover:text-indigo-600 transition-colors">
+                                Home
+                            </Link>
                         </li>
                         <li>
-                            <Link href="/materie/nuova">Nuova Materia</Link>
+                            <Link href="/materie/nuova" className="hover:text-indigo-600 transition-colors">
+                                Nuova Materia
+                            </Link>
                         </li>
                         <li>
-                            <Link href="/profilo">Profilo</Link>
+                            <Link href="/profilo" className="hover:text-indigo-600 transition-colors">
+                                Profilo
+                            </Link>
                         </li>
                     </ul>
                 </nav>

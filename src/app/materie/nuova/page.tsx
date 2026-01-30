@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { loadMaterieFromStorage, saveMaterieToStorage } from '@/lib/materie';
+import { Materia } from '@/types';
 
 export default function NuovaMateria() {
     const router = useRouter();
@@ -24,7 +26,6 @@ export default function NuovaMateria() {
             ...prev,
             [name]: value
         }));
-        // Rimuovi l'errore quando l'utente inizia a digitare
         if (errors[name]) {
             setErrors(prev => {
                 const newErrors = { ...prev };
@@ -70,18 +71,29 @@ export default function NuovaMateria() {
 
         setIsSubmitting(true);
 
-        // Simula un salvataggio
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+            const nuovaMateria: Materia = {
+                id: Date.now().toString(),
+                titolo: formData.titolo.trim(),
+                insegnante: formData.prof.trim(),
+                ore: parseInt(formData.ore),
+                libro: formData.libro.trim(),
+                argomenti: formData.argomenti.split(',').map(a => a.trim()).filter(Boolean),
+                links: formData.link.trim() ? [formData.link.trim()] : undefined,
+            };
 
-        // In una vera applicazione, qui faresti una chiamata API
-        console.log('Nuova materia:', {
-            ...formData,
-            ore: parseInt(formData.ore),
-            argomenti: formData.argomenti.split(',').map(a => a.trim()),
-        });
+            const materie = loadMaterieFromStorage();
+            const nuoveMaterie = [nuovaMateria, ...materie];
+            saveMaterieToStorage(nuoveMaterie);
 
-        // Reindirizza alla home
-        router.push('/');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            router.push('/');
+        } catch (error) {
+            console.error('Errore nel salvataggio:', error);
+            alert('Errore nel salvataggio della materia');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -104,7 +116,6 @@ export default function NuovaMateria() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                        {/* Titolo */}
                         <div>
                             <label htmlFor="titolo" className="block text-sm font-semibold text-gray-700 mb-2">
                                 Titolo materia *
@@ -123,7 +134,6 @@ export default function NuovaMateria() {
                             )}
                         </div>
 
-                        {/* Professore */}
                         <div>
                             <label htmlFor="prof" className="block text-sm font-semibold text-gray-700 mb-2">
                                 Professore *
@@ -142,7 +152,6 @@ export default function NuovaMateria() {
                             )}
                         </div>
 
-                        {/* Ore */}
                         <div>
                             <label htmlFor="ore" className="block text-sm font-semibold text-gray-700 mb-2">
                                 Ore settimanali *
@@ -162,7 +171,6 @@ export default function NuovaMateria() {
                             )}
                         </div>
 
-                        {/* Libro */}
                         <div>
                             <label htmlFor="libro" className="block text-sm font-semibold text-gray-700 mb-2">
                                 Libro di testo *
@@ -181,7 +189,6 @@ export default function NuovaMateria() {
                             )}
                         </div>
 
-                        {/* Argomenti */}
                         <div>
                             <label htmlFor="argomenti" className="block text-sm font-semibold text-gray-700 mb-2">
                                 Argomenti *
@@ -201,7 +208,6 @@ export default function NuovaMateria() {
                             )}
                         </div>
 
-                        {/* Link immagine libro */}
                         <div>
                             <label htmlFor="link" className="block text-sm font-semibold text-gray-700 mb-2">
                                 Link immagine libro (opzionale)
@@ -218,7 +224,6 @@ export default function NuovaMateria() {
                             <p className="mt-1 text-sm text-gray-500">URL dell&apos;immagine di copertina del libro</p>
                         </div>
 
-                        {/* Pulsanti */}
                         <div className="flex gap-4 pt-6 border-t border-gray-200">
                             <button
                                 type="submit"
@@ -245,7 +250,7 @@ export default function NuovaMateria() {
 
                             <Link
                                 href="/"
-                                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors text-center"
+                                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center"
                             >
                                 Annulla
                             </Link>

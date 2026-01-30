@@ -1,6 +1,6 @@
-// src/app/materia/[id]/page.tsx
+// src/app/materie/[id]/page.tsx
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { Materia } from '@/types';
@@ -12,13 +12,11 @@ export default function MateriaDetailPage() {
     const id = params?.id;
     const router = useRouter();
 
-    const [materia, setMateria] = useState<Materia | null>(null);
-
-    useEffect(() => {
-        if (!id) return;
+    // Usa useMemo per calcolare la materia senza side effects
+    const materia = useMemo<Materia | null>(() => {
+        if (!id || typeof window === 'undefined') return null;
         const list = loadMaterieFromStorage();
-        const found = list.find(m => m.id === id) ?? null;
-        setMateria(found);
+        return list.find(m => m.id === id) ?? null;
     }, [id]);
 
     function handleDelete() {
@@ -31,7 +29,14 @@ export default function MateriaDetailPage() {
     }
 
     if (!materia) {
-        return <p>Materia non trovata.</p>;
+        return (
+            <div className="text-center py-8">
+                <p className="text-gray-600 mb-4">Materia non trovata.</p>
+                <Link href="/" className="text-indigo-600 hover:underline">
+                    Torna alla home
+                </Link>
+            </div>
+        );
     }
 
     return (
@@ -39,8 +44,15 @@ export default function MateriaDetailPage() {
             <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold">{materia.titolo}</h2>
                 <div className="flex gap-2">
-                    <Link href="/" className="px-3 py-1 border rounded">Torna</Link>
-                    <button onClick={handleDelete} className="px-3 py-1 border rounded text-red-600">Elimina</button>
+                    <Link href="/" className="px-3 py-1 border rounded hover:bg-gray-100">
+                        Torna
+                    </Link>
+                    <button
+                        onClick={handleDelete}
+                        className="px-3 py-1 border rounded text-red-600 hover:bg-red-50"
+                    >
+                        Elimina
+                    </button>
                 </div>
             </div>
 
@@ -52,16 +64,31 @@ export default function MateriaDetailPage() {
                 <div>
                     <strong>Argomenti:</strong>
                     <ul className="list-disc ml-6">
-                        {materia.argomenti.length ? materia.argomenti.map((a, i) => <li key={i}>{a}</li>) : <li>—</li>}
+                        {materia.argomenti.length ?
+                            materia.argomenti.map((a, i) => <li key={i}>{a}</li>) :
+                            <li>—</li>
+                        }
                     </ul>
                 </div>
 
                 <div>
                     <strong>Link utili:</strong>
                     <ul className="ml-6">
-                        {materia.links && materia.links.length ? materia.links.map((l, i) => (
-                            <li key={i}><a href={l} target="_blank" rel="noreferrer" className="text-blue-600 underline">{l}</a></li>
-                        )) : <li>—</li>}
+                        {materia.links && materia.links.length ?
+                            materia.links.map((l, i) => (
+                                <li key={i}>
+                                    <a
+                                        href={l}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="text-blue-600 underline hover:text-blue-800"
+                                    >
+                                        {l}
+                                    </a>
+                                </li>
+                            )) :
+                            <li>—</li>
+                        }
                     </ul>
                 </div>
             </div>
