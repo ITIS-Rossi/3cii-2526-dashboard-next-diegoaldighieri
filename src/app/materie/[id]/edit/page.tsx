@@ -1,4 +1,3 @@
-// src/app/materie/[id]/edit/page.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -25,7 +24,6 @@ export default function EditMateria() {
         link: '',
     });
 
-    // Carica i dati della materia esistente
     useEffect(() => {
         if (!id || typeof window === 'undefined') return;
 
@@ -49,10 +47,7 @@ export default function EditMateria() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name]) {
             setErrors(prev => {
                 const newErrors = { ...prev };
@@ -64,40 +59,20 @@ export default function EditMateria() {
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
-
-        if (!formData.titolo.trim()) {
-            newErrors.titolo = 'Il titolo è obbligatorio';
-        }
-
-        if (!formData.prof.trim()) {
-            newErrors.prof = 'Il nome del professore è obbligatorio';
-        }
-
-        if (!formData.ore || parseInt(formData.ore) <= 0) {
-            newErrors.ore = 'Inserisci un numero di ore valido';
-        }
-
-        if (!formData.libro.trim()) {
-            newErrors.libro = 'Il libro di testo è obbligatorio';
-        }
-
-        if (!formData.argomenti.trim()) {
-            newErrors.argomenti = 'Inserisci almeno un argomento';
-        }
-
+        if (!formData.titolo.trim()) newErrors.titolo = 'Il titolo è obbligatorio';
+        if (!formData.prof.trim()) newErrors.prof = 'Il professore è obbligatorio';
+        if (!formData.ore || parseInt(formData.ore) <= 0) newErrors.ore = 'Inserisci un numero di ore valido';
+        if (!formData.libro.trim()) newErrors.libro = 'Il libro è obbligatorio';
+        if (!formData.argomenti.trim()) newErrors.argomenti = 'Inserisci almeno un argomento';
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         setIsSubmitting(true);
-
         try {
             const materieEsistenti = loadMaterieFromStorage();
             const materiaAggiornata: Materia = {
@@ -115,12 +90,11 @@ export default function EditMateria() {
             );
 
             saveMaterieToStorage(nuoveMaterie);
-
             await new Promise(resolve => setTimeout(resolve, 500));
             router.push(`/materie/${id}`);
         } catch (error) {
-            console.error('Errore nel salvataggio:', error);
-            alert('Errore nel salvataggio della materia');
+            console.error('Errore:', error);
+            alert('Errore nel salvataggio');
         } finally {
             setIsSubmitting(false);
         }
@@ -128,183 +102,181 @@ export default function EditMateria() {
 
     if (notFound) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-                <div className="max-w-3xl mx-auto">
-                    <div className="text-center py-12 bg-white rounded-lg shadow-md">
-                        <div className="text-6xl mb-4">❌</div>
-                        <p className="text-xl text-gray-900 font-semibold mb-2">Materia non trovata</p>
-                        <p className="text-gray-600 mb-6">La materia che stai cercando non esiste</p>
-                        <Link href="/" className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-all">
-                            Torna alla home
-                        </Link>
-                    </div>
+            <div className="max-w-3xl mx-auto">
+                <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-16 text-center">
+                    <div className="text-7xl mb-6">❌</div>
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+                        Materia non trovata
+                    </h3>
+                    <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
+                        La materia che stai cercando non esiste
+                    </p>
+                    <Link
+                        href="/"
+                        className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors text-base"
+                    >
+                        Torna alla home
+                    </Link>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-            <div className="max-w-3xl mx-auto">
-                <Link
-                    href={`/materie/${id}`}
-                    className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-medium mb-6 transition-colors"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-                    </svg>
-                    Torna alla materia
-                </Link>
+        <div className="max-w-3xl mx-auto">
+            <Link
+                href={`/materie/${id}`}
+                className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-semibold mb-6 transition-colors text-base"
+            >
+                ← Torna alla materia
+            </Link>
 
-                <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                    <div className="bg-gradient-to-r from-[#0CFF93] to-[#0CC193] p-8 text-white">
-                        <h1 className="text-4xl font-bold mb-2">Modifica Materia</h1>
-                        <p className="text-green-100">Aggiorna i dettagli della materia</p>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                        <div>
-                            <label htmlFor="titolo" className="block text-sm font-semibold text-gray-700 mb-2">
-                                Titolo materia *
-                            </label>
-                            <input
-                                type="text"
-                                id="titolo"
-                                name="titolo"
-                                value={formData.titolo}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-3 border ${errors.titolo ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#0CFF93] focus:border-transparent transition-colors`}
-                                placeholder="Es: Matematica"
-                            />
-                            {errors.titolo && (
-                                <p className="mt-1 text-sm text-red-600">{errors.titolo}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="prof" className="block text-sm font-semibold text-gray-700 mb-2">
-                                Professore *
-                            </label>
-                            <input
-                                type="text"
-                                id="prof"
-                                name="prof"
-                                value={formData.prof}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-3 border ${errors.prof ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#0CFF93] focus:border-transparent transition-colors`}
-                                placeholder="Es: Mario Rossi"
-                            />
-                            {errors.prof && (
-                                <p className="mt-1 text-sm text-red-600">{errors.prof}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="ore" className="block text-sm font-semibold text-gray-700 mb-2">
-                                Ore settimanali *
-                            </label>
-                            <input
-                                type="number"
-                                id="ore"
-                                name="ore"
-                                value={formData.ore}
-                                onChange={handleChange}
-                                min="1"
-                                className={`w-full px-4 py-3 border ${errors.ore ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#0CFF93] focus:border-transparent transition-colors`}
-                                placeholder="Es: 4"
-                            />
-                            {errors.ore && (
-                                <p className="mt-1 text-sm text-red-600">{errors.ore}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="libro" className="block text-sm font-semibold text-gray-700 mb-2">
-                                Libro di testo *
-                            </label>
-                            <input
-                                type="text"
-                                id="libro"
-                                name="libro"
-                                value={formData.libro}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-3 border ${errors.libro ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#0CFF93] focus:border-transparent transition-colors`}
-                                placeholder="Es: Matematica.blu Vol. 3"
-                            />
-                            {errors.libro && (
-                                <p className="mt-1 text-sm text-red-600">{errors.libro}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="argomenti" className="block text-sm font-semibold text-gray-700 mb-2">
-                                Argomenti *
-                            </label>
-                            <textarea
-                                id="argomenti"
-                                name="argomenti"
-                                value={formData.argomenti}
-                                onChange={handleChange}
-                                rows={4}
-                                className={`w-full px-4 py-3 border ${errors.argomenti ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#0CFF93] focus:border-transparent transition-colors`}
-                                placeholder="Inserisci gli argomenti separati da virgola. Es: Limiti, Derivate, Integrali"
-                            />
-                            <p className="mt-1 text-sm text-gray-500">Separa gli argomenti con una virgola</p>
-                            {errors.argomenti && (
-                                <p className="mt-1 text-sm text-red-600">{errors.argomenti}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <label htmlFor="link" className="block text-sm font-semibold text-gray-700 mb-2">
-                                Link immagine libro (opzionale)
-                            </label>
-                            <input
-                                type="url"
-                                id="link"
-                                name="link"
-                                value={formData.link}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0CFF93] focus:border-transparent transition-colors"
-                                placeholder="https://esempio.com/immagine-libro.jpg"
-                            />
-                            <p className="mt-1 text-sm text-gray-500">URL dell&apos;immagine di copertina del libro</p>
-                        </div>
-
-                        <div className="flex gap-4 pt-6 border-t border-gray-200">
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="flex-1 bg-[#0CFF93] hover:bg-[#0CC193] disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
-                            >
-                                {isSubmitting ? (
-                                    <>
-                                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        Salvataggio...
-                                    </>
-                                ) : (
-                                    <>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                        Salva modifiche
-                                    </>
-                                )}
-                            </button>
-
-                            <Link
-                                href={`/materie/${id}`}
-                                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center"
-                            >
-                                Annulla
-                            </Link>
-                        </div>
-                    </form>
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-white">
+                    <h1 className="text-4xl font-bold mb-2">Modifica Materia</h1>
+                    <p className="text-lg text-indigo-100">Aggiorna i dettagli della materia</p>
                 </div>
+
+                <form onSubmit={handleSubmit} className="p-8 space-y-6">
+                    <FormField
+                        label="Titolo materia"
+                        name="titolo"
+                        value={formData.titolo}
+                        onChange={handleChange}
+                        error={errors.titolo}
+                        placeholder="Es: Matematica"
+                        required
+                    />
+
+                    <FormField
+                        label="Professore"
+                        name="prof"
+                        value={formData.prof}
+                        onChange={handleChange}
+                        error={errors.prof}
+                        placeholder="Es: Mario Rossi"
+                        required
+                    />
+
+                    <FormField
+                        label="Ore settimanali"
+                        name="ore"
+                        type="number"
+                        value={formData.ore}
+                        onChange={handleChange}
+                        error={errors.ore}
+                        placeholder="Es: 4"
+                        required
+                    />
+
+                    <FormField
+                        label="Libro di testo"
+                        name="libro"
+                        value={formData.libro}
+                        onChange={handleChange}
+                        error={errors.libro}
+                        placeholder="Es: Matematica.blu Vol. 3"
+                        required
+                    />
+
+                    <FormField
+                        label="Argomenti"
+                        name="argomenti"
+                        value={formData.argomenti}
+                        onChange={handleChange}
+                        error={errors.argomenti}
+                        placeholder="Es: Limiti, Derivate, Integrali"
+                        helpText="Separa gli argomenti con una virgola"
+                        isTextarea
+                        required
+                    />
+
+                    <FormField
+                        label="Link immagine libro (opzionale)"
+                        name="link"
+                        type="url"
+                        value={formData.link}
+                        onChange={handleChange}
+                        placeholder="https://esempio.com/immagine.jpg"
+                    />
+
+                    <div className="flex gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-base"
+                        >
+                            {isSubmitting ? 'Salvataggio...' : '✓ Salva modifiche'}
+                        </button>
+                        <Link
+                            href={`/materie/${id}`}
+                            className="flex-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-semibold py-3.5 px-6 rounded-lg transition-colors text-center text-base"
+                        >
+                            Annulla
+                        </Link>
+                    </div>
+                </form>
             </div>
+        </div>
+    );
+}
+
+function FormField({
+                       label,
+                       name,
+                       value,
+                       onChange,
+                       error,
+                       placeholder,
+                       helpText,
+                       type = 'text',
+                       isTextarea = false,
+                       required = false
+                   }: {
+    label: string;
+    name: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    error?: string;
+    placeholder?: string;
+    helpText?: string;
+    type?: string;
+    isTextarea?: boolean;
+    required?: boolean;
+}) {
+    const inputClasses = `w-full px-4 py-3 border ${error ? 'border-red-500' : 'border-slate-300 dark:border-slate-600'} rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors text-base`;
+
+    return (
+        <div>
+            <label className="block text-base font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                {label} {required && <span className="text-red-500">*</span>}
+            </label>
+            {isTextarea ? (
+                <textarea
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    rows={4}
+                    className={inputClasses}
+                    placeholder={placeholder}
+                />
+            ) : (
+                <input
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className={inputClasses}
+                    placeholder={placeholder}
+                    min={type === 'number' ? '1' : undefined}
+                />
+            )}
+            {helpText && (
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{helpText}</p>
+            )}
+            {error && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400 font-medium">{error}</p>
+            )}
         </div>
     );
 }
