@@ -44,8 +44,6 @@ export default function ProfiloPage() {
                         <h3 className="text-lg font-semibold text-gray-900">Note e Informazioni</h3>
                         <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                             <p className="text-gray-700">
-                                Qui puoi inserire informazioni aggiuntive sullo studente, obiettivi di studio,
-                                preferenze o note personali per organizzare meglio il tuo percorso formativo.
                             </p>
                         </div>
                     </div>

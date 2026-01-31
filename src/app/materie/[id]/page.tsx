@@ -27,6 +27,13 @@ export default function MateriaDetailPage() {
         router.push('/');
     }
 
+    function handleEdit() {
+        
+
+    }
+
+
+
     if (!materia) {
         return (
             <div className="text-center py-12 bg-white rounded-lg shadow-md">
@@ -64,6 +71,12 @@ export default function MateriaDetailPage() {
                     >
                         🗑️ Elimina
                     </button>
+                    <button
+                        onclick={handleEdit}
+                        className= "px-6 py-2 bg-[#0CFF93] hover:bg-[#0CC193] text-white rounded-lg font-semibold shadow-md transition-all hover:shadow-lg"
+                    >
+                        🛠️ Modifica
+                </button>
                 </div>
             </div>
 
