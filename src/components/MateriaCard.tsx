@@ -1,4 +1,3 @@
-// src/components/MateriaCard.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';
@@ -6,53 +5,57 @@ import { Materia } from '@/types';
 
 export default function MateriaCard({ m }: { m: Materia }) {
     return (
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:shadow-xl transition-all hover:border-indigo-300">
-            <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">
-                            {m.titolo.substring(0, 2).toUpperCase()}
-                        </span>
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold text-gray-900">{m.titolo}</h3>
-                        <p className="text-sm text-gray-600">{m.ore} ore settimanali</p>
-                    </div>
-                </div>
-
-                <div className="space-y-1 text-sm">
-                    <p className="text-gray-700">
-                        <span className="font-semibold text-gray-900">Insegnante:</span> {m.insegnante}
-                    </p>
-                    {m.libro && (
-                        <p className="text-gray-700">
-                            <span className="font-semibold text-gray-900">Libro:</span> {m.libro}
-                        </p>
-                    )}
-                    {m.argomenti && m.argomenti.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mt-2">
-                            {m.argomenti.slice(0, 3).map((arg, i) => (
-                                <span
-                                    key={i}
-                                    className="px-2 py-1 bg-indigo-100 text-indigo-800 rounded text-xs font-medium"
-                                >
-                                    {arg}
-                                </span>
-                            ))}
-                            {m.argomenti.length > 3 && (
-                                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">
-                                    +{m.argomenti.length - 3} altri
-                                </span>
-                            )}
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 hover:shadow-md transition-all">
+            <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-bold text-xl">
+                                {m.titolo.substring(0, 2).toUpperCase()}
+                            </span>
                         </div>
-                    )}
-                </div>
-            </div>
+                        <div>
+                            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+                                {m.titolo}
+                            </h3>
+                            <p className="text-base text-slate-600 dark:text-slate-400">
+                                {m.ore} ore/settimana
+                            </p>
+                        </div>
+                    </div>
 
-            <div className="flex gap-2 items-center">
+                    <div className="space-y-2 text-base">
+                        <p className="text-slate-700 dark:text-slate-300">
+                            <span className="font-semibold text-slate-900 dark:text-slate-100">Prof:</span> {m.insegnante}
+                        </p>
+                        {m.libro && (
+                            <p className="text-slate-700 dark:text-slate-300">
+                                <span className="font-semibold text-slate-900 dark:text-slate-100">Libro:</span> {m.libro}
+                            </p>
+                        )}
+                        {m.argomenti && m.argomenti.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mt-3">
+                                {m.argomenti.slice(0, 3).map((arg, i) => (
+                                    <span
+                                        key={i}
+                                        className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg text-sm font-medium"
+                                    >
+                                        {arg}
+                                    </span>
+                                ))}
+                                {m.argomenti.length > 3 && (
+                                    <span className="px-3 py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium">
+                                        +{m.argomenti.length - 3}
+                                    </span>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
                 <Link
                     href={`/materie/${m.id}`}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-all hover:shadow-lg"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-base"
                 >
                     Visualizza
                 </Link>

@@ -1,39 +1,57 @@
 @import "tailwindcss";
 
 :root {
-    --background: #7650FF;
-    --foreground: #111827;
-}
-
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --border: #e2e8f0;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: #1f2937;
-        --foreground: #7650FF;
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --accent: #818cf8;
+        --accent-hover: #6366f1;
+        --border: #334155;
     }
 }
 
 body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
 }
 
-/* Miglioramenti per la leggibilità */
 h1, h2, h3, h4, h5, h6 {
-    color: #111827;
+    color: var(--text-primary);
+    font-weight: 700;
+    line-height: 1.3;
 }
 
-@media (prefers-color-scheme: dark) {
-    h1, h2, h3, h4, h5, h6 {
-        color: #7650FF;
-    }
+p {
+    color: var(--text-secondary);
+}
+
+/* Migliore contrasto per la leggibilità */
+.card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
 }
