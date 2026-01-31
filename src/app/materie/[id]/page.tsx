@@ -28,11 +28,23 @@ export default function MateriaDetailPage() {
     }
 
     function handleEdit() {
-        
-
+        if (!materia) return;
+        // Reindirizza alla pagina di modifica (da creare)
+        router.push(`/materie/${materia.id}/edit`);
     }
 
-
+    if (!materia) {
+        return (
+            <div className="text-center py-12 bg-white rounded-lg shadow-md">
+                <div className="text-6xl mb-4">❌</div>
+                <p className="text-xl text-gray-900 font-semibold mb-2">Materia non trovata</p>
+                <p className="text-gray-600 mb-6">La materia che stai cercando non esiste</p>
+                <Link href="/" className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-all">
+                    Torna alla home
+                </Link>
+            </div>
+        );
+    }
 
     if (!materia) {
         return (
@@ -72,7 +84,7 @@ export default function MateriaDetailPage() {
                         🗑️ Elimina
                     </button>
                     <button
-                        onclick={handleEdit}
+                        onClick={handleEdit}
                         className= "px-6 py-2 bg-[#0CFF93] hover:bg-[#0CC193] text-white rounded-lg font-semibold shadow-md transition-all hover:shadow-lg"
                     >
                         🛠️ Modifica
