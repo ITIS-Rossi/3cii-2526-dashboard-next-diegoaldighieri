@@ -9,7 +9,7 @@ export default function MateriaCard({ m }: { m: Materia }) {
             <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div className="w-14 h-14 bg-linear-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shrink-0">
                             <span className="text-white font-bold text-xl">
                                 {m.titolo.substring(0, 2).toUpperCase()}
                             </span>
