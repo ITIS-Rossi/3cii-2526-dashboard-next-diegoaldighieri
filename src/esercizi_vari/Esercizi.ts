@@ -10,25 +10,30 @@ const carrello = [
 
 // ------ Esercizio 1 ------
 
-const catalogo = carrello.map(item => item.prodotto.toUpperCase());
+const catalogo = carrello.
+    map(item => item.prodotto.toUpperCase());
 console.log(catalogo);
 
 // ------ Esercizio 2 ------
 
-const catalogo2 = carrello.map(item => item.categoria == "Elettronica" && item.prezzo > 50 );
+const catalogo2 = carrello.
+    map(item => item.categoria == "Elettronica" && item.prezzo > 50 );
 console.log(catalogo2);
 
 // ------ Esercizio 3 ------
 
-const totale = carrello.reduce((acc, item) => acc + item.prezzo, 0);
+const totale = carrello.
+    reduce((acc, item) => acc + item.prezzo, 0);
 console.log(totale);
 
 // ------ Esercizio 4 ------
 
-const trovatore = carrello.find(item => item.prodotto == "Zaino Porta PC");
+const trovatore = carrello.
+    find(item => item.prodotto == "Zaino Porta PC");
 console.log(trovatore);
 
 // ------ Esercizio 5 ------
 
-const totalecategoria = carrello.find(item => item.categoria == "Accessori");
+const totalecategoria = carrello.
+    find(item => item.categoria == "Accessori");
 
